@@ -40,7 +40,6 @@ public class App extends Application {
         });
         ii.setOnMouseClicked((e)->{
             h.hb(ii);
-
         });
         ss.setOnMouseClicked((e)->{
             h.hb(ss);
