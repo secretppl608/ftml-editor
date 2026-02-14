@@ -20,15 +20,13 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Button bb = new Button("B");
-        Control control = (Text text)->text.setStrikethrough(true);
         Control none = (Text text)->{};
+        Button bb = HandleButton.create("B","b-button-1",none);
+        Control control = (Text text)->text.setStrikethrough(true);
         Button ii = HandleButton.create("I","i-button",none);
         ii.setPadding(new Insets(10,20,8,20));
         Button ss = HandleButton.create("S","s-button",control);
         ss.setPadding(new Insets(9,14,7,14));
-        bb.getStyleClass().add("b-button");
-        bb.getStyleClass().add("b-button-1");
         bb.setPadding(new Insets(10,10,8,10));
         HandleButton h = new HandleButton();
         bb.setOnMouseClicked((e)->{
@@ -42,11 +40,12 @@ public class App extends Application {
         });
         HBox hb = new HBox();
         hb.setPadding(new Insets(1,20,1,20));
-        hb.setMargin(ii, new Insets(0,0,0,0));
+        HBox.setMargin(ii, new Insets(0,0,0,0));
         hb.getChildren().add(bb);
         hb.getChildren().add(ii);
         hb.getChildren().add(ss);
         hb.setSpacing(10);
+        hb.setStyle("-fx-background-color: rgba(0,0,0,0.1)");
         AnchorPane ap = new AnchorPane();
         ap.getChildren().add(hb);
         ap.getStylesheets().add(getClass().getResource("/css/button.css").toExternalForm());

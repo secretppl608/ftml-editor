@@ -1,9 +1,11 @@
-.b-button {
+.button {
     -fx-background-color: rgba(0,0,0,0);
+    -fx-underline: false;
 }
 .b-button-clicked {
-    -fx-background-color: gray;
+    -fx-underline: true;
 }
+
 .i-button {
     -fx-font-style: italic;
     -fx-font-family: 'Arial'
