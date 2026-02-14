@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -16,10 +18,14 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private static Scene scene;
-
     @Override
     public void start(Stage stage) throws IOException {
+        //!=======================选项卡===============================================
+        Tab t1 = new Tab("一般");
+        Tab t2 = new Tab("插入");
+        TabPane tp1 = new TabPane();
+        t2.setContent(null);
+        //!========================选项卡控件===============================================
         Control none = (Text text)->{};
         Button bb = HandleButton.create("B","b-button-1",none);
         Control control = (Text text)->text.setStrikethrough(true);
@@ -47,9 +53,12 @@ public class App extends Application {
         hb.setSpacing(10);
         hb.setStyle("-fx-background-color: rgba(0,0,0,0.1)");
         AnchorPane ap = new AnchorPane();
-        ap.getChildren().add(hb);
+        t1.setContent(hb);
+        tp1.getTabs().addAll(t1,t2);
+        // !==========================添加选项卡及其控件到整体==================================================
+        ap.getChildren().add(tp1);
         ap.getStylesheets().add(getClass().getResource("/css/button.css").toExternalForm());
-        scene = new Scene(ap, 1200, 600);
+        Scene scene = new Scene(ap, 1200, 600);
         stage.setScene(scene);
         stage.setTitle("Wikitext Editor");
         stage.show();
