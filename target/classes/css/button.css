@@ -1,0 +1,13 @@
+.b-button {
+    -fx-background-color: rgba(0,0,0,0);
+}
+.b-button-clicked {
+    -fx-background-color: gray;
+}
+.i-button {
+    -fx-font-style: italic;
+    -fx-font-family: 'Arial'
+}
+.b-button-1{
+    -fx-font-weight: bold;
+}
