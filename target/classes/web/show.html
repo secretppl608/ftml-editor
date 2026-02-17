@@ -4,10 +4,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./css/web.css">
 </head>
 <body>
-    <div>
-        展示区域
+    <div id="editor" contenteditable>
+        <h1>欢迎来到维基世界，请尝试自由编辑吧</h1>
     </div>
+
+    <template id="tpl">
+            <style>
+                #textStyleChangeToolBox {
+                    width: 300px;
+                    height: 55px;
+                    border: 1px solid black;
+                    border-radius: 6px;
+                    padding: 3px;
+                    display: flex;
+                    gap: 3px;
+                }
+                #left-top{
+                    display: flex;
+                    gap:3px;
+                }
+                #sizeChoose {
+                    width: 100%;
+                    height: 100%;
+                    outline: none;
+                    opacity: 0;
+                }
+                #size {
+                    position: relative;
+                    width: 50px;
+                    height: 25px;
+                    display: inline-block;
+                    margin-right: 3px;
+                }
+                #textsize-show {
+                    position: absolute;
+                    inset: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    padding-left: 3px;
+                    font-size: 16px;
+                    color: rgba(0, 0, 0, 0.5);
+                    border: 1px solid black;
+                    border-radius: 5px;
+                }
+                .focus::after {
+                    content: "|";
+                    color: rgba(0, 0, 0, 0.5);
+                    position: relative;
+                    bottom: 2px;
+                    left: 1px;
+                    animation: cursor 1.2s infinite;
+                }
+
+                @keyframes cursor {
+                    from {
+                        opacity: 0;
+                    }
+                    49% {
+                        opacity: 0;
+                    }
+                    50% {
+                        opacity: 1;
+                    }
+                    99% {
+                        opacity: 1;
+                    }
+                    to {
+                        opacity: 0;
+                    }
+                }
+
+                .small-icon {
+                    font-size: 10px;
+                    transform: rotate(180deg);
+                    display: inline-block;
+                    position: relative;
+                    bottom: 6px;
+                }
+
+                .big-icon{
+                    font-size: 10px;
+                    position: relative;
+                    bottom: 4px;
+                }
+                #smallChoose {
+                    font-size: 10px;
+                }
+
+                .btn{
+                    width: 25px;
+                    height: 25px;
+                    background-color: white;
+                    border: none;
+                    cursor: pointer;
+                    margin-right: 0px !important;
+                    box-sizing: border-box;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+
+                .btn:hover {
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
+
+                svg{
+                    width: 15px;
+                }
+
+                .midline {
+                    height: 100%;
+                    border-right: 1px solid rgba(0, 0, 0, 0.3);
+                }
+
+                #left{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3px;
+                }
+
+                #left-bottom{
+                    display: flex;
+                    gap:3px;
+                }
+
+                #bChoose {
+                    font-weight: bold;
+                }
+
+                #ibutton {
+                    font-style: italic;
+                }
+                #sButton {
+                    text-decoration: line-through;
+                }
+                #uButton {
+                    text-decoration: underline;
+                }
+                #colorButton{
+                    opacity: 0;
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                }
+                #cb{
+                    --current-color: black;
+                    position: relative;
+                    background: linear-gradient(to bottom,white 0% 80%,var(--current-color) 80% 100%);
+                    border-radius: 5px 5px 0px 0px;
+                }
+                #cb:hover{
+                    position: relative;
+                    background: linear-gradient(to bottom,rgba(0,0,0,0.1) 0% 80%,var(--current-color) 80% 100%);
+                    border-radius: 5px 5px 0px 0px;
+                }
+            </style>
+
+        <div id="textStyleChangeToolBox">
+            <div id="left">
+                <div id="left-top">
+                    <div id="size">
+                        <input type="text" id="sizeChoose" title="字号" value="16px" />
+                        <span id="textsize-show">16px</span>
+                    </div>
+                    <button id="bigChoose" class="btn">A<span class="big-icon">^</span></button>
+                    <button id="smallChoose" class="btn">A<span class="small-icon">^</span></button>
+                    <button class="btn" id="brushChoose">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5357 15.9465L18.657 13.8252L15.475 10.6432L19.0106 7.10768L16.8892 4.98636L13.3537 8.52189L10.1717 5.33991L8.05041 7.46123L16.5357 15.9465ZM13.3537 5.69346L16.1821 2.86504C16.5727 2.47451 17.2058 2.47451 17.5963 2.86504L21.1319 6.40057C21.5224 6.79109 21.5224 7.42426 21.1319 7.81478L18.3035 10.6432L20.7783 13.1181C21.1689 13.5086 21.1689 14.1418 20.7783 14.5323L13.0002 22.3105C12.6096 22.701 11.9765 22.701 11.5859 22.3105L1.68645 12.411C1.29592 12.0205 1.29592 11.3873 1.68645 10.9968L9.46462 3.21859C9.85515 2.82807 10.4883 2.82807 10.8788 3.21859L13.3537 5.69346Z"></path></svg>
+                    </button>
+                    <button id="urlChoose" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14.8287 7.75737L9.1718 13.4142C8.78127 13.8047 8.78127 14.4379 9.1718 14.8284C9.56232 15.219 10.1955 15.219 10.586 14.8284L16.2429 9.17158C17.4144 8.00001 17.4144 6.10052 16.2429 4.92894C15.0713 3.75737 13.1718 3.75737 12.0002 4.92894L6.34337 10.5858C4.39075 12.5384 4.39075 15.7042 6.34337 17.6569C8.29599 19.6095 11.4618 19.6095 13.4144 17.6569L19.0713 12L20.4855 13.4142L14.8287 19.0711C12.095 21.8047 7.66283 21.8047 4.92916 19.0711C2.19549 16.3374 2.19549 11.9053 4.92916 9.17158L10.586 3.51473C12.5386 1.56211 15.7045 1.56211 17.6571 3.51473C19.6097 5.46735 19.6097 8.63317 17.6571 10.5858L12.0002 16.2427C10.8287 17.4142 8.92916 17.4142 7.75759 16.2427C6.58601 15.0711 6.58601 13.1716 7.75759 12L13.4144 6.34316L14.8287 7.75737Z"></path></svg>
+                    </button>
+                </div>
+                <div id="left-bottom">
+                    <button id="bChoose" class="btn">B</button>
+                    <button class="btn" id="iButton">I</button>
+                    <button class="btn" id="sButton">S</button>
+                    <button class="btn" id="uButton">U</button>
+                    <button class="btn" id="runButton">@</button>
+                    <button class="btn" id="cb">A
+                        <input type="color" id="colorButton" />
+                    </button>
+                </div>
+            </div>
+            <div class="midline"></div>
+        </div>
+    </template>
+    <script src="./js/web.js" defer></script>
 </body>
 </html>
