@@ -1,14 +1,18 @@
 package ftml.editor;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 public class App{
     public static void main(String[] args) throws Exception {
@@ -28,36 +32,42 @@ public class App{
         window.setLayout(new BorderLayout());
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1,4,30,0));
-
+        panel.setLayout(new GridLayout(1,4));
+        int right = (int) (frame.getWidth()*0.6);
+        panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,right));
         panel.add(new TopbarButton("一般"));
         panel.add(new TopbarButton("插入"));
         panel.add(new TopbarButton("视图"));
         panel.add(new TopbarButton("构建"));
-        for (int i = 0;i<panel.getComponentCount();i++) {
-            int finalI = i;
-            panel.getComponent(i).addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (panel.getComponent(finalI) instanceof TopbarButton) {
-                        var a =  (TopbarButton) panel.getComponent(finalI);
-                        a.Focus("focus");
-                        for (int erp = 0; erp<panel.getComponentCount(); erp++) {
-                            final int w = erp;
-                            if (w != finalI) {
-                                var wrp =  panel.getComponent(w);
-                                if(wrp instanceof TopbarButton) {
-                                    ((TopbarButton) wrp).Focus("outFocus");
-                                }
+        doSomething(panel);
+        window.add(panel,BorderLayout.NORTH);
+        frame.add(window);
+        frame.setVisible(true);
+    }
+    // $ ~ main
+    private static void doSomething(@NotNull JPanel panel) {
+        for (int finalI = 0; finalI <panel.getComponentCount(); finalI++) {
+            any(panel,finalI);
+        }
+    }
+    // $ ~ doSomething ~ main
+    private static void any(JPanel panel, int finalI) {
+        panel.getComponent(finalI).addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (panel.getComponent(finalI) instanceof TopbarButton a) {
+                    a.Focus("focus");
+                    for (int erp = 0; erp<panel.getComponentCount(); erp++) {
+                        if (erp != finalI) {
+                            var wrp =  panel.getComponent(erp);
+                            if(wrp instanceof TopbarButton topbarButton) {
+                                topbarButton.Focus("outFocus");
                             }
                         }
                     }
                 }
-            });
-        }
-        window.add(panel,BorderLayout.NORTH);
-        frame.add(window);
-        frame.setVisible(true);
+            }
+        });
     }
 }
 

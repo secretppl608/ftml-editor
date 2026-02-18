@@ -1,2 +1,9 @@
-.vscode/
-.idea/
+*
+
+!src/
+!src/**
+!doc/
+!pom.xml
+!.gitignore
+!README.md
+!LICENSE

@@ -13,6 +13,7 @@ public class TopbarButton extends JButton {
     private final Map<TextAttribute,Object> map = new HashMap<TextAttribute,Object>();
     public TopbarButton(String str) {
         super(str);
+        setPreferredSize(new Dimension(10,20));
         __init__();
     }
 
