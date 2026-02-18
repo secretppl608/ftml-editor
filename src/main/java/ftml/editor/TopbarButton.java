@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TopbarButton extends JButton {
+    public enum AccessValue {
+        focus,outFocus
+    }
+
     private final Map<TextAttribute,Object> map = new HashMap<TextAttribute,Object>();
     public TopbarButton(String str) {
         super(str);
@@ -39,11 +43,11 @@ public class TopbarButton extends JButton {
 
     //? <public_control_method> because $ Listener{click} -X-> tab.out.change (difficult & not_modular_design)
     //? out.Control A.(--> $ | --> tab.out.Change)
-    public void Focus(String type){
-        if (Objects.equals(type, "focus")){
+    public void Focus(AccessValue type){
+        if (Objects.equals(type, AccessValue.focus)){
             map.put(TextAttribute.UNDERLINE,TextAttribute.UNDERLINE_ON);
             setFont(new Font(map));
-        } else if (Objects.equals(type,"outFocus")) {
+        } else if (Objects.equals(type,AccessValue.outFocus)) {
             map.remove(TextAttribute.UNDERLINE,TextAttribute.UNDERLINE_ON);
             setFont(new Font(map));
         }
