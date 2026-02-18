@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class TopbarButton extends JButton {
+    private final Font baseFont;
     public enum AccessValue {
         focus,outFocus
     }
@@ -18,6 +19,8 @@ public class TopbarButton extends JButton {
     public TopbarButton(String str) {
         super(str);
         setPreferredSize(new Dimension(10,20));
+        baseFont =  new Font("等线",Font.PLAIN,10);
+        setFont(baseFont);
         __init__();
     }
 
@@ -28,15 +31,11 @@ public class TopbarButton extends JButton {
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
                 setBackground(new Color(0,0,0,10));
-                map.put(TextAttribute.WEIGHT,TextAttribute.WEIGHT_BOLD);
-                setFont(new Font(map));
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 setBackground(new Color(0,0,0,0));
-                map.remove(TextAttribute.WEIGHT,TextAttribute.WEIGHT_BOLD);
-                setFont(new Font(map));
             }
         });
     }
@@ -46,10 +45,12 @@ public class TopbarButton extends JButton {
     public void Focus(AccessValue type){
         if (Objects.equals(type, AccessValue.focus)){
             map.put(TextAttribute.UNDERLINE,TextAttribute.UNDERLINE_ON);
-            setFont(new Font(map));
+            map.put(TextAttribute.WEIGHT,TextAttribute.WEIGHT_BOLD);
+            setFont(baseFont.deriveFont(map));
         } else if (Objects.equals(type,AccessValue.outFocus)) {
-            map.remove(TextAttribute.UNDERLINE,TextAttribute.UNDERLINE_ON);
-            setFont(new Font(map));
+            map.remove(TextAttribute.UNDERLINE);
+            map.remove(TextAttribute.WEIGHT);
+            setFont(baseFont.deriveFont(map));
         }
     }
 }

@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class ToolBox {
     private final JPanel panel;
-    enum Type {
+    public enum Type {
         a,b,c,d
     }
     public ToolBox(Type type) {

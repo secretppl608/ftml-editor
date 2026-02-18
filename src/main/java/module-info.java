@@ -5,5 +5,6 @@ module ftml.editor {
     requires java.desktop;
     requires com.formdev.flatlaf;
     requires jdk.xml.dom;
+
     exports ftml.editor;
 }
